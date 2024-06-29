@@ -14,9 +14,14 @@
           <p>Rating: ({{ item.rating }}/5)</p>
           <div class="icon-container">
             <StarIcon
-              v-for="star in item.rating"
+              @click="item.rating = star"
+              v-for="star in 5"
               :key="star"
               class="icon-rating"
+              :class="{
+                selectedRating: star <= item.rating,
+                disabled: item.rating === star,
+              }"
             />
           </div>
         </nav>
@@ -33,6 +38,9 @@ const state = reactive(items);
 </script>
 <style lang="scss" scoped>
 .movie-wrapper {
+  width: 80vw;
+  height: 80vh;
+  margin: 0 auto;
   .item-content {
     background-color: rgb(240, 236, 245);
     border-radius: 0.5rem;
@@ -51,12 +59,19 @@ const state = reactive(items);
     height: 600px;
   }
   .icon-container {
+    .selectedRating {
+      color: gold !important;
+    }
+    .disabled {
+      cursor: not-allowed !important;
+    }
     display: flex;
     flex-wrap: nowrap;
     .icon-rating {
+      cursor: pointer;
       width: 20px;
       height: 20px;
-      color: gold;
+      color: grey;
     }
   }
 }
